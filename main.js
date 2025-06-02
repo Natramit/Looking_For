@@ -17,8 +17,9 @@ const Text = [
         p3_t: "预览",
         p3_t0: "点击以下按钮访问预览页面：",
         p3_t1: "预览新页面",
-        p3_t2: "预览已配置页面",
-        p3_t3: "下载新页面"
+        p3_t2: "预览已配置页面(必应壁纸 更快)",
+        p3_t3: "预览已配置页面",
+        p3_t4: "下载新页面"
     }
 ];
 function load() {
@@ -41,6 +42,7 @@ function write(lang = 0) {
     document.getElementById('p3_t1').innerHTML = Text[lang].p3_t1;
     document.getElementById('p3_t2').innerHTML = Text[lang].p3_t2;
     document.getElementById('p3_t3').innerHTML = Text[lang].p3_t3;
+    document.getElementById('p3_t4').innerHTML = Text[lang].p3_t4;
     return 0;
 }
 function next(value) {
