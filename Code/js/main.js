@@ -4074,12 +4074,16 @@ function Looking_For_S_Background_Img_Preview(value, N_O_V = -1) {
         if (Looking_For_B_G_I_P_Timeout_V == 0) return 0;
         let Height_Max = document.getElementById('Sitting_Centel_Table_Id').offsetHeight;
         let Height_V = I_E.offsetHeight;
-        if (Height < Height_V) Height = Height + Height_V + 26;
-        Height = Height - 60;
-        Height = Height_Max - Height;
+        if (Height >= Height_Max - Height_V){
+            Height = Height - Height_V;
+            I_E.style.marginTop = '0px';
+        }
+        else{
+            I_E.style.marginTop = '';
+        }
         Height = Height.toFixed(0);
         Left = Left.toFixed(0);
-        I_E.style.bottom = Height + 'px';
+        I_E.style.top = Height + 'px';
         I_E.style.left = Left + 'px';
         Looking_For_B_G_I_P_Timeout = setTimeout(function () {
             I_E.style.opacity = 1;

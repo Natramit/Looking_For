@@ -768,7 +768,7 @@ input[type=range]::-ms-thumb {
 
 #S_Background_Img_Preview_Show {
     position: absolute;
-    max-width: 30%;
+    max-width: 60%;
     max-height: 30%;
     object-fit: contain;
     z-index: 10;
@@ -777,5 +777,5 @@ input[type=range]::-ms-thumb {
     transition: opacity 0.6s;
     bottom: 0px;
     border-radius:var(--Back_Border_Radius);
-    margin-bottom: 1.7rem;
+    margin-top: 1.8rem;
 }
