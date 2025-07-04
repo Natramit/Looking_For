@@ -1,6 +1,6 @@
 const Message = {
     name: "路亭 Looking For",
-    version: "V2.01.63"
+    version: "V2.01.64"
 }
 const Text = [
     {
