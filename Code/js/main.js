@@ -3307,7 +3307,7 @@ function Looking_For_Link_Editer(value) {
         var IN_T = "<div id='S_Link_Edit_Box' class='S_Link_Hind_Edit' style='margin-top:"
             + H_Top + "px;margin-left:"
             + To_Left + "px;width:"
-            + Width + "px;text-align:center;' onmouseover='Looking_For_Link_Edit_Use(1)' onmouseout='Looking_For_Link_Edit_Use(0)'><div style='width:65.5%;margin-left:1.5%;overflow:hidden;float:left;'><div style='width:23%;margin:10px 1% 10px 0%;float:left;'><div style='height:21px;overflow:hidden'>"
+            + Width + "px;text-align:center;' onmouseover='Looking_For_Link_Edit_Use(1)' onmouseout='Looking_For_Link_Edit_Use(0)'><div style='width:65.5%;margin-left:1.5%;float:left;'><div style='width:23%;margin:10px 1% 10px 0%;float:left;'><div style='height:21px;overflow:hidden'>"
             + Title[0] + "</div><input placeholder='0' class='Box_Style' style='width:100%;text-align:center;font-size:24px;border:0px;margin-top:6px;' value='"
             + Group_Message[1].replace(/\\\\/g, '\\') + "'></div><div style='width:23%;margin:10px 1% 10px 1%;float:left;'><div style='height:21px;overflow:hidden'>"
             + Title[1] + "</div><input placeholder='0' class='Box_Style' style='width:100%;text-align:center;font-size:24px;border:0px;margin-top:6px;' value='"
