@@ -770,3 +770,17 @@ input[type=range]::-ms-thumb {
 .Background_Un_Use_Mask {
     background: repeating-linear-gradient(60deg, var(--Back_Color_Text), var(--Back_Color_Text) var(--Back_Line_Width), var(--Back_Color) 0, var(--Back_Color) 13px);
 }
+
+#S_Background_Img_Preview_Show {
+    position: absolute;
+    max-width: 60%;
+    max-height: 30%;
+    object-fit: contain;
+    z-index: 10;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.6s;
+    bottom: 0px;
+    border-radius:var(--Back_Border_Radius);
+    margin-top: 1.8rem;
+}
