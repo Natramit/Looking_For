@@ -1,4 +1,4 @@
-//Version: 2.01.63
+//Version: 2.01.63 dev...
 
 const Looking_For_Release_Version_Message = Looking_For_DEV_Version_Message;
 /*CONFIG START*/
@@ -265,7 +265,10 @@ const Looking_For_Texts_Languages = [
         C_save_file: 'Save to file',
         C_save_local: 'Save to local cache',
         C_save_remove_local: 'Remove the local cache',
-        TX_about: '&emsp;&emsp;路亭 Looking For<br>&emsp;&emsp;Version No. ' + Looking_For_Release_Version_Message.Version + '<br>&emsp;&emsp;Development Completion Time ' + Looking_For_Release_Version_Message.Date.Day + ' ' + Looking_For_Release_Version_Message.Date.Year + '.<br><br>&emsp;&emsp;This is a post pavilion on the side of the road, people can hurry by, but they can also take a little rest.<br><br><br>&emsp;&emsp;We are committed to bringing you enough experience with lightweight programs.',
+        TX_about: '&emsp;&emsp;路亭 Looking For<br>&emsp;&emsp;Version No. ' 
+            + Looking_For_Release_Version_Message.Version + '<br>&emsp;&emsp;Development Completion Time ' 
+            + Looking_For_Release_Version_Message.Date.Day + ' ' 
+            + Looking_For_Release_Version_Message.Date.Year + '.<br><br>&emsp;&emsp;This is a post pavilion on the side of the road, people can hurry by, but they can also take a little rest.<br><br><br>&emsp;&emsp;We are committed to bringing you enough experience with lightweight programs.',
         TX_preview_start: '&emsp;&emsp;Use the preview page directly, and if enabled, the page will load directly to the link in the input box below.',
         C_preview_start: 'Use the preview page directly',
         T_others_filename: 'Filename',
@@ -406,7 +409,10 @@ const Looking_For_Texts_Languages = [
         C_save_file: '保存到文件',
         C_save_local: '保存到本地缓存',
         C_save_remove_local: '移除本地缓存',
-        TX_about: '&emsp;&emsp;路亭 Looking For<br>&emsp;&emsp;版本号 ' + Looking_For_Release_Version_Message.Version + '<br>&emsp;&emsp;开发完成时间 ' + Looking_For_Release_Version_Message.Date.Day + ' ' + Looking_For_Release_Version_Message.Date.Year + '.<br><br>&emsp;&emsp;这是栖于路边的驿亭，人们匆匆而过，也可微微留憩。<br><br><br>&emsp;&emsp;致力于以轻量化的程序为您带来足够的体验。',
+        TX_about: '&emsp;&emsp;路亭 Looking For<br>&emsp;&emsp;版本号 ' 
+            + Looking_For_Release_Version_Message.Version + '<br>&emsp;&emsp;开发完成时间 ' 
+            + Looking_For_Release_Version_Message.Date.Day + ' ' 
+            + Looking_For_Release_Version_Message.Date.Year + '.<br><br>&emsp;&emsp;这是栖于路边的驿亭，人们匆匆而过，也可微微留憩。<br><br><br>&emsp;&emsp;致力于以轻量化的程序为您带来足够的体验。',
         TX_preview_start: "&emsp;&emsp;直接使用预览页，若启用，页面载入时将直接访问下方输入框内的链接。",
         C_preview_start: '直接使用预览页',
         T_others_filename: '文件名',
@@ -479,6 +485,24 @@ var Looking_For_S_Img_Show_R_Y_If_Use = 0;
 var Looking_For_S_Img_Mix_R_Value = 0;
 var Looking_For_S_Img_Show_Mask_X_Y_Line_Clean_Time;
 var Looking_For_S_Img_Show_O_R_Clean_Time;
+var Looking_For_Background_Img_Links_Grou_Timeout={
+    B:{
+        I:0,
+        B:0
+    },
+    T:{
+        I:0,
+        B:0
+    },
+    I:{
+        I:0,
+        B:0
+    },
+    S:{
+        I:0,
+        B:0
+    }
+}
 var Looking_For_N_Active_Value = 1;
 var Looking_For_Message_Box_Clear_Timeout;
 /* last is if_ready*/
@@ -1053,24 +1077,31 @@ function Looking_For_Background_Img_Change(value = 0) {
     let E_D = document.getElementById(ID_T[value] + '_Box');
     let E_D_B = document.getElementById(ID_T[value] + '_BoxB');
     let Array_T;
+    let Array_T_Timeout;
+    let Array_T_Grout_Timeout = Looking_For_Background_Img_Links_Grou_Timeout;
     let F_A_C = [
         function () {
             Array_T = Looking_For_Background_Img_Links_B;
+            Array_T_Timeout = Array_T_Grout_Timeout.B;
         },
         function () {
             Array_T = Looking_For_Background_Img_Links_T;
+            Array_T_Timeout = Array_T_Grout_Timeout.T;
         },
         function () {
             Array_T = Looking_For_Background_Img_Links_S;
+            Array_T_Timeout = Array_T_Grout_Timeout.S;
         },
         function () {
             Array_T = Looking_For_Background_Img_Links_I;
+            Array_T_Timeout = Array_T_Grout_Timeout.I;
         },
     ];
     let Img_Z_Index_S = -1, Img_Z_Index_H = -2;
     let img_urls = '';
     let temp0;
     if (Looking_For_Background_Turn_Way == 0) {
+        F_A_C[value]();
         if (Looking_For_Background_Img_Element_Useing[value]) {
             temp0 = E_I;
             E_I = E_I_B;
@@ -1078,17 +1109,22 @@ function Looking_For_Background_Img_Change(value = 0) {
             temp0 = E_D;
             E_D = E_D_B;
             E_D_B = temp0;
+            temp0 = Array_T_Timeout.I;
+            Array_T_Timeout.I = Array_T_Timeout.B;
+            Array_T_Timeout.B = temp0;
         }
-        F_A_C[value]();
         img_urls = Array_T[Looking_For_Background_Img_Links_Now[value]];
         if (value == 1) {
             Img_Z_Index_S = 20, Img_Z_Index_H = 19;
         }
         E_D_B.style["z-index"] = Img_Z_Index_S;
         E_D.style["z-index"] = Img_Z_Index_H;
+        clearTimeout(Array_T_Timeout.I);
+        Array_T_Timeout.I = setTimeout(function(){
+            E_I.style.opacity = 0;
+        },1500);
         E_I_B.style.opacity = img_urls[4];
         E_I_B.style['object-position'] = img_urls[2] + "% " + img_urls[3] + "%";
-        E_I.style.opacity = 0;
         if (Looking_For_Background_Img_Element_Useing[value]) {
             E_I.style['object-position'] = "0% 100%";
         }
@@ -3298,52 +3334,56 @@ function Looking_For_Link_Editer(value) {
         var Go_Way_Box_V_H = '-3px';
         if (Looking_For_Link_Editer_Go_Way_Value == 1) Go_Way_Box_V_H = '-36px';
         else if (Looking_For_Link_Editer_Go_Way_Value == 2) Go_Way_Box_V_H = '-69px';
-        var Go_Way_Box = "<div style='width:100%;height:30px;text-align:center;font-size:24px;border:0px;margin-top:6px;position:relative;'><div  id='Looking_For_Link_Editer_Go_Way_H' style='width:100%;height:30px;overflow:hidden;position:absolute;'><div id='Looking_For_Link_Editer_Go_Way_V' style='width:100%;height=30px;transition:margin-top 0.6s;position:absolute;margin-top:"
-            + Go_Way_Box_V_H + "'><div class='Box_Style' style='width:100%;margin:3px 0px 3px 0px;height:30px;overflow:hidden;cursor:pointer;' onclick='Looking_For_Link_Editer_Go_Way(0)'>"
-            + Title[12] + "</div><div class='Box_Style' style='width:100%;margin:3px 0px 3px 0px;height:30px;overflow:hidden;cursor:pointer;' onclick='Looking_For_Link_Editer_Go_Way(1)'>"
-            + Title[13] + "</div><div class='Box_Style' style='width:100%;margin:3px 0px 3px 0px;height:30px;overflow:hidden;cursor:pointer;' onclick='Looking_For_Link_Editer_Go_Way(2)'>"
+        var Go_Way_Box = 
+            "<div style='width:100%;height:30px;text-align:center;font-size:24px;border:0px;margin-top:6px;position:relative;'><div  id='Looking_For_Link_Editer_Go_Way_H' style='width:100%;height:30px;overflow:hidden;position:absolute;'><div id='Looking_For_Link_Editer_Go_Way_V' style='width:100%;height=30px;transition:margin-top 0.6s;position:absolute;margin-top:" 
+            + Go_Way_Box_V_H + "'><div class='Box_Style' style='width:100%;margin:3px 0px 3px 0px;height:30px;overflow:hidden;cursor:pointer;' onclick='Looking_For_Link_Editer_Go_Way(0)'>" 
+            + Title[12] + "</div><div class='Box_Style' style='width:100%;margin:3px 0px 3px 0px;height:30px;overflow:hidden;cursor:pointer;' onclick='Looking_For_Link_Editer_Go_Way(1)'>" 
+            + Title[13] + "</div><div class='Box_Style' style='width:100%;margin:3px 0px 3px 0px;height:30px;overflow:hidden;cursor:pointer;' onclick='Looking_For_Link_Editer_Go_Way(2)'>" 
             + Title[14] + "</div></div></div></div>";
         var Edit_Class = 'S_Link_Edit';
-        var IN_T = "<div id='S_Link_Edit_Box' class='S_Link_Hind_Edit' style='margin-top:"
-            + H_Top + "px;margin-left:"
-            + To_Left + "px;width:"
-            + Width + "px;text-align:center;' onmouseover='Looking_For_Link_Edit_Use(1)' onmouseout='Looking_For_Link_Edit_Use(0)'><div style='width:65.5%;margin-left:1.5%;overflow:hidden;float:left;'><div style='width:23%;margin:10px 1% 10px 0%;float:left;'><div style='height:21px;overflow:hidden'>"
-            + Title[0] + "</div><input placeholder='0' class='Box_Style' style='width:100%;text-align:center;font-size:24px;border:0px;margin-top:6px;' value='"
-            + Group_Message[1].replace(/\\\\/g, '\\') + "'></div><div style='width:23%;margin:10px 1% 10px 1%;float:left;'><div style='height:21px;overflow:hidden'>"
-            + Title[1] + "</div><input placeholder='0' class='Box_Style' style='width:100%;text-align:center;font-size:24px;border:0px;margin-top:6px;' value='"
+        var IN_T = 
+            "<div id='S_Link_Edit_Box' class='S_Link_Hind_Edit' style='margin-top:" 
+            + H_Top + "px;margin-left:" 
+            + To_Left + "px;width:" 
+            + Width + "px;text-align:center;' onmouseover='Looking_For_Link_Edit_Use(1)' onmouseout='Looking_For_Link_Edit_Use(0)'><div style='width:65.5%;margin-left:1.5%'><div style='width:23%;margin:10px 1% 10px 0%;float:left;'><div style='height:21px;overflow:hidden'>" 
+            + Title[0] + "</div><input placeholder='0' class='Box_Style' style='width:100%;text-align:center;font-size:24px;border:0px;margin-top:6px;' value='" 
+            + Group_Message[1].replace(/\\\\/g, '\\') + "'></div><div style='width:23%;margin:10px 1% 10px 1%;float:left;'><div style='height:21px;overflow:hidden'>" 
+            + Title[1] + "</div><input placeholder='0' class='Box_Style' style='width:100%;text-align:center;font-size:24px;border:0px;margin-top:6px;' value='" 
             + Group_Message[0] + "'></div><div style='width:23%;margin:10px 1% 10px 1%;float:left;'><div style='height:21px;overflow:hidden'>"
-            + Title[2] + "</div><input placeholder='"
-            + Title[2] + " 1' class='Box_Style' style='width:100%;text-align:center;font-size:24px;border:0px;margin-top:6px;' value='"
-            + Temp_V[1].replace(/\\\\/g, '\\') + "'></div><div style='width:23%;margin:10px 1% 10px 1%;float:left;'><div style='height:21px;overflow:hidden'>"
-            + Title[3] + "</div>" + Go_Way_Box + "</div></div><div style='width:31%;margin:10px 1% 10px 1%;float:left;'><div style='height:21px;overflow:hidden'>"
-            + Title[4] + "</div><input placeholder='"
-            + Title[15] + "' class='Box_Style' style='width:100%;text-align:center;font-size:24px;border:0px;margin-top:6px;' value='"
-            + Temp_V[6].replace(/\\\\/g, '\\') + "'></div><div style='width:31%;margin:10px 1% 10px 1.5%;float:left;'><div style='height:21px;overflow:hidden'>"
-            + Title[5] + "</div><input placeholder='url' class='Box_Style' style='width:100%;text-align:center;font-size:24px;border:0px;margin-top:6px;' value='"
-            + Temp_V[2] + "'></div><div style='width:31%;margin:10px 1% 10px 1%;float:left;'><div style='height:21px;overflow:hidden'>"
-            + Title[6] + "</div><input placeholder='url?keyword=' class='Box_Style' style='width:100%;text-align:center;font-size:24px;border:0px;margin-top:6px;' value='"
-            + Temp_V[3] + "'></div><div style='width:31%;margin:10px 1% 10px 1%;float:left;'><div style='height:21px;overflow:hidden'>"
-            + Title[7] + "</div><input placeholder='site:url' class='Box_Style' style='width:100%;text-align:center;font-size:24px;border:0px;margin-top:6px;' value='"
-            + Temp_V[4] + "'></div><div class='Box_Style' style='width:40%;height:30px;margin:6px 0px 0px 30%;cursor:pointer;float:left;' onclick='Looking_For_Link_Edit_Link("
-            + Number0 + ")'>"
+            + Title[2] + "</div><input placeholder='" 
+            + Title[2] + " 1' class='Box_Style' style='width:100%;text-align:center;font-size:24px;border:0px;margin-top:6px;' value='" 
+            + Temp_V[1].replace(/\\\\/g, '\\') + "'></div><div style='width:23%;margin:10px 1% 10px 1%;float:left;'><div style='height:21px;overflow:hidden'>" 
+            + Title[3] + "</div>" 
+            + Go_Way_Box + "</div></div><div style='width:31%;margin:10px 1% 10px 1%;float:left;'><div style='height:21px;overflow:hidden'>" 
+            + Title[4] + "</div><input placeholder='" 
+            + Title[15] + "' class='Box_Style' style='width:100%;text-align:center;font-size:24px;border:0px;margin-top:6px;' value='" 
+            + Temp_V[6].replace(/\\\\/g, '\\') + "'></div><div style='width:31%;margin:10px 1% 10px 1.5%;float:left;'><div style='height:21px;overflow:hidden'>" 
+            + Title[5] + "</div><input placeholder='url' class='Box_Style' style='width:100%;text-align:center;font-size:24px;border:0px;margin-top:6px;' value='" 
+            + Temp_V[2] + "'></div><div style='width:31%;margin:10px 1% 10px 1%;float:left;'><div style='height:21px;overflow:hidden'>" 
+            + Title[6] + "</div><input placeholder='url?keyword=' class='Box_Style' style='width:100%;text-align:center;font-size:24px;border:0px;margin-top:6px;' value='" 
+            + Temp_V[3] + "'></div><div style='width:31%;margin:10px 1% 10px 1%;float:left;'><div style='height:21px;overflow:hidden'>" 
+            + Title[7] + "</div><input placeholder='site:url' class='Box_Style' style='width:100%;text-align:center;font-size:24px;border:0px;margin-top:6px;' value='" 
+            + Temp_V[4] + "'></div><div class='Box_Style' style='width:40%;height:30px;margin:6px 0px 0px 30%;cursor:pointer;float:left;' onclick='Looking_For_Link_Edit_Link(" 
+            + Number0 + ")'>" 
             + Title[11] + "</div></div>";
     }
     else {
         Edit_Table_Height = 40;
         var Edit_Class = 'S_Link_Group_Edit';
-        var IN_T = "<div id='S_Link_Edit_Box' class='S_Link_Hind_Edit' style='margin-top:"
-        + H_Top + "px;margin-left:"
-        + To_Left + "px;width:"
-        + Width + "px;text-align:center;' onmouseover='Looking_For_Link_Edit_Use(1)' onmouseout='Looking_For_Link_Edit_Use(0)'><div style='width:25%;margin:10px 1% 10px 1%;float:left;'><div style='height:21px;overflow:hidden'>"
-        + Title[8] + "</div><input placeholder='1' type='number' class='Box_Style' style='width:100%;text-align:center;font-size:24px;border:0px;margin:6px 0px 0px 6px;' value='"
-        + Temp_V[0] + "'></div><div style='width:50%;margin:10px 1% 10px 1%;float:left;'><div style='height:21px;overflow:hidden'>"
-        + Title[9] + "</div><input placeholder='"
-        + Title[9] + " 1' class='Box_Style' style='width:100%;text-align:center;font-size:24px;border:0px;margin:6px 0px 0px 6px;' value='"
-        + Temp_V[1].replace(/\\\\/g, '\\') + "'></div><div style='width:18%;margin:10px 1% 10px 1%;float:right;'> <div class='Box_Style' style='width:100%;height:30px;margin:0px;cursor:pointer;' onclick='Looking_For_Link_Edit_Remove_Group_Button("
-        + Number0 + ")'>"
-        + Title[10] + "</div><div class='Box_Style' style='width:100%;height:30px;margin:6px 0px 0px 0px;cursor:pointer;' onclick='Looking_For_Link_Edit_Group("
-        + Number0 + ")'>"
-        + Title[11] + "</div></div></div>";
+        var IN_T = 
+            "<div id='S_Link_Edit_Box' class='S_Link_Hind_Edit' style='margin-top:" 
+            + H_Top + "px;margin-left:" 
+            + To_Left + "px;width:" 
+            + Width + "px;text-align:center;' onmouseover='Looking_For_Link_Edit_Use(1)' onmouseout='Looking_For_Link_Edit_Use(0)'><div style='width:25%;margin:10px 1% 10px 1%;float:left;'><div style='height:21px;overflow:hidden'>" 
+            + Title[8] + "</div><input placeholder='1' type='number' class='Box_Style' style='width:100%;text-align:center;font-size:24px;border:0px;margin:6px 0px 0px 6px;' value='" 
+            + Temp_V[0] + "'></div><div style='width:50%;margin:10px 1% 10px 1%;float:left;'><div style='height:21px;overflow:hidden'>" 
+            + Title[9] + "</div><input placeholder='" 
+            + Title[9] + " 1' class='Box_Style' style='width:100%;text-align:center;font-size:24px;border:0px;margin:6px 0px 0px 6px;' value='" 
+            + Temp_V[1].replace(/\\\\/g, '\\') + "'></div><div style='width:18%;margin:10px 1% 10px 1%;float:right;'> <div class='Box_Style' style='width:100%;height:30px;margin:0px;cursor:pointer;' onclick='Looking_For_Link_Edit_Remove_Group_Button(" 
+            + Number0 + ")'>" 
+            + Title[10] + "</div><div class='Box_Style' style='width:100%;height:30px;margin:6px 0px 0px 0px;cursor:pointer;' onclick='Looking_For_Link_Edit_Group(" 
+            + Number0 + ")'>" 
+            + Title[11] + "</div></div></div>";
     }
     H_Top = H_Top - Edit_Table_Height;
     if (H_Top < 80) H_Top = 80;
@@ -3501,6 +3541,7 @@ function Looking_For_Link_Editer_Close(value = 0) {
         if (Looking_For_Link_Edit_Useing) return 0;
     }
     Looking_For_Link_Edit_Useing = 0;
+    Looking_For_Link_Editer_Go_Way_Temp = 0;
     document.getElementById('S_Link_Link_Eider_Where').style.background = 'hsla(0,0%,0%,0.00)';
     var Edit_E = document.getElementById('S_Link_Edit_Box');
     if (Edit_E !== null) {
@@ -3702,7 +3743,12 @@ function Looking_For_Link_Edit_Link_Fix() {
 function Looking_For_S_Link_Input_Show_Creater(number) {
     var Team_V = Looking_For_Links[number];
     var ID_T = 'S_Link_Link_', Style = ['Background_Un_Use_Mask', ''];
-    var IN_T = "<div onclick='Looking_For_Link_Editer(1)'><div class='Box_Style S_Link_Input_Box " + Style[Team_V[7]] + "' style='width:25%;'>" + Team_V[1].replace(/[ ]/g, '&ensp;').replace(/\\\\/g, '\\') + "</div><div class='Box_Style S_Link_Input_Box " + Style[Team_V[7]] + "' style='width:50%;word-wrap:break-word;'>" + Team_V[2] + "</div></div><div class='S_Background_Link_Button Box_Style' style='line-height:28px;' onclick='Looking_For_Link_Box_Button(3)'>╳</div><div class='S_Background_Link_Button Box_Style' style='line-height:15px' onclick='Looking_For_Link_Box_Button(2)'>︿</div><div class='S_Background_Link_Button Box_Style' style='line-height:24px' onclick='Looking_For_Link_Box_Button(1)'>-</div><div class='S_Background_Link_Button Box_Style' style='line-height:24px' onclick='Looking_For_Link_Box_Button(0)'>＋</div>";
+    var IN_T = 
+        "<div onclick='Looking_For_Link_Editer(1)'><div class='Box_Style S_Link_Input_Box " 
+        + Style[Team_V[7]] + "' style='width:25%;'>" 
+        + Team_V[1].replace(/[ ]/g, '&ensp;').replace(/\\\\/g, '\\') + "</div><div class='Box_Style S_Link_Input_Box " 
+        + Style[Team_V[7]] + "' style='width:50%;word-wrap:break-word;'>" 
+        + Team_V[2] + "</div></div><div class='S_Background_Link_Button Box_Style' style='line-height:28px;' onclick='Looking_For_Link_Box_Button(3)'>╳</div><div class='S_Background_Link_Button Box_Style' style='line-height:15px' onclick='Looking_For_Link_Box_Button(2)'>︿</div><div class='S_Background_Link_Button Box_Style' style='line-height:24px' onclick='Looking_For_Link_Box_Button(1)'>-</div><div class='S_Background_Link_Button Box_Style' style='line-height:24px' onclick='Looking_For_Link_Box_Button(0)'>＋</div>";
     if (Team_V[2] == 0) IN_T = "<div onclick='Looking_For_Link_Editer(0)'><div class='Box_Style S_Link_Input_Group_Box'>" + Team_V[1].replace(/[ ]/g, '&ensp;').replace(/\\\\/g, '\\') + "</div></div>";
     if (Team_V[2] == 0) {
         Looking_For_Div_Creater(ID_T + 'Box', ID_T + 'Group_Door_' + Team_V[0], 'S_Link_Group_Box_Box Auto_Door_Open', "<div id='" + ID_T + 'Group_' + Team_V[0] + "'></div>");
@@ -3914,7 +3960,15 @@ function Looking_For_S_Background_Input_Show_Creater(number) {
     var Team_V = Looking_For_Background_If_Use[Looking_For_Dark_Light_Style][number];
     var ID_T = 'S_Color_Img_Show_Link_', ID_W = ['', 'B', 'T', 'S', 'I'], ID = '', Style = ['S_Link_Show_Input_UNUSE', 'S_Link_Show_Input_USE'];
     ID = ID_T + ID_W[Team_V[0]];
-    var IN_T = "<input placeholder='url,X=50%,Y=50%,O=100%' id='" + ID + "I_" + number + "_V' class='" + Style[Team_V[5]] + "' value='" + Team_V[1] + ',X=' + Team_V[2] + '%,Y=' + Team_V[3] + '%,O=' + Team_V[4] * 100 + "%;' onchange='Looking_For_S_Background_Input_Change()' onMouseOver='Looking_For_S_Background_Img_Preview(1)' onMouseOut='Looking_For_S_Background_Img_Preview(0)'><div class='S_Background_Link_Button Box_Style' style='line-height:28px;' onclick='Looking_For_S_Background_Input_Button(3)'>╳</div><div class='S_Background_Link_Button Box_Style' style='line-height:15px' onclick='Looking_For_S_Background_Input_Button(2)'>︿</div><div class='S_Background_Link_Button Box_Style' style='line-height:24px' onclick='Looking_For_S_Background_Input_Button(1)'>-</div><div class='S_Background_Link_Button Box_Style' style='line-height:24px' onclick='Looking_For_S_Background_Input_Button(0)'>＋</div>";
+    var IN_T = 
+        "<input placeholder='url,X=50%,Y=50%,O=100%' id='" 
+        + ID + "I_" 
+        + number + "_V' class='" 
+        + Style[Team_V[5]] + "' value='" 
+        + Team_V[1] + ',X=' 
+        + Team_V[2] + '%,Y=' 
+        + Team_V[3] + '%,O=' 
+        + Team_V[4] * 100 + "%;' onchange='Looking_For_S_Background_Input_Change()' onMouseOver='Looking_For_S_Background_Img_Preview(1)' onMouseOut='Looking_For_S_Background_Img_Preview(0)'><div class='S_Background_Link_Button Box_Style' style='line-height:28px;' onclick='Looking_For_S_Background_Input_Button(3)'>╳</div><div class='S_Background_Link_Button Box_Style' style='line-height:15px' onclick='Looking_For_S_Background_Input_Button(2)'>︿</div><div class='S_Background_Link_Button Box_Style' style='line-height:24px' onclick='Looking_For_S_Background_Input_Button(1)'>-</div><div class='S_Background_Link_Button Box_Style' style='line-height:24px' onclick='Looking_For_S_Background_Input_Button(0)'>＋</div>";
     Looking_For_Div_Creater(ID, ID + '_Box_' + number, 'S_Background_Link_Box', IN_T);
     document.getElementById(ID + '_Box_' + number).style.order = number;
 }
@@ -3922,7 +3976,21 @@ function Looking_For_S_Background_Img_Show_Creater(number) {
     var Team_V = Looking_For_Background_If_Use[Looking_For_Dark_Light_Style][number];
     var ID_T = 'S_Color_Img_Show_Show_', ID_W = ['', 'B', 'T', 'S', 'I'], ID = '', Style = ['S_Link_Show_Img_Mask_UNUSE', 'S_Link_Show_Img_Mask_USE'];
     ID = ID_T + ID_W[Team_V[0]];
-    var IN_T = "<div class='S_Background_Link_Show_R_X'><input placeholder='Enter here' id='" + ID + '_' + number + "_R_X' oninput='Looking_For_S_Img_Show_Slid_X_Change()' style='width:100%;margin-top:6px;margin-left:0px;' type='range' min='0' max='100' step='1' value='" + Team_V[2] + "'></div><div class='S_Background_Link_Show'><img class='S_Background_Link_Show_Img' src='" + Team_V[1] + "' alt='' onload='Looking_For_S_Background_Img_Link_Show_Easing()' onerror='Looking_For_S_Background_Img_Link_Close_Easing()'><div id='" + ID + '_' + number + "_W' class='S_Background_Link_Show_R_Y_W' onmousemove='Looking_For_S_Img_Show_Slid_Point_In_R()' onclick='Looking_For_S_Img_Show_Slid_Y_H_Move()' onmousedown='Looking_For_S_Img_Show_Slid_Point_In_R(1)' onmouseup='Looking_For_S_Img_Show_Slid_Point_In_R(-1)' onmouseout='Looking_For_S_Img_Show_Slid_Point_In_R(-1)'><div class='S_Background_Link_Show_R_Y_Slid' style='height:" + Team_V[3] + "%'><div class='S_Background_Link_Show_R_Y_Slid_Lide'></div></div></div><div id='" + ID + '_' + number + "_W_M' class='" + Style[Team_V[5]] + "'></div></div><div class='S_Background_Link_Show_R_X'><input placeholder='Enter here' id='" + ID + number + "_O_R'  oninput='Looking_For_S_Img_Show_Slid_O_R_Change()' style='width:100%;margin-top:6px;margin-left:0px;' type='range' min='0' max='1' step='0.01' value='" + Team_V[4] + "'></div>";
+    var IN_T = 
+        "<div class='S_Background_Link_Show_R_X'><input placeholder='Enter here' id='" 
+        + ID + '_' 
+        + number + "_R_X' oninput='Looking_For_S_Img_Show_Slid_X_Change()' style='width:100%;margin-top:6px;margin-left:0px;' type='range' min='0' max='100' step='1' value='" 
+        + Team_V[2] + "'></div><div class='S_Background_Link_Show'><img class='S_Background_Link_Show_Img' src='" 
+        + Team_V[1] + "' alt='' onload='Looking_For_S_Background_Img_Link_Show_Easing()' onerror='Looking_For_S_Background_Img_Link_Close_Easing()'><div id='" 
+        + ID + '_' 
+        + number + "_W' class='S_Background_Link_Show_R_Y_W' onmousemove='Looking_For_S_Img_Show_Slid_Point_In_R()' onclick='Looking_For_S_Img_Show_Slid_Y_H_Move()' onmousedown='Looking_For_S_Img_Show_Slid_Point_In_R(1)' onmouseup='Looking_For_S_Img_Show_Slid_Point_In_R(-1)' onmouseout='Looking_For_S_Img_Show_Slid_Point_In_R(-1)'><div class='S_Background_Link_Show_R_Y_Slid' style='height:" 
+        + Team_V[3] + "%'><div class='S_Background_Link_Show_R_Y_Slid_Lide'></div></div></div><div id='" 
+        + ID + '_' 
+        + number + "_W_M' class='" 
+        + Style[Team_V[5]] + "'></div></div><div class='S_Background_Link_Show_R_X'><input placeholder='Enter here' id='" 
+        + ID 
+        + number + "_O_R'  oninput='Looking_For_S_Img_Show_Slid_O_R_Change()' style='width:100%;margin-top:6px;margin-left:0px;' type='range' min='0' max='1' step='0.01' value='" 
+        + Team_V[4] + "'></div>";
     Looking_For_Div_Creater(ID, ID + '_Box_' + number, 'S_Background_Link_Show_Box', IN_T);
     document.getElementById(ID + '_Box_' + number).style.order = number;
 }
@@ -3963,7 +4031,9 @@ function Looking_For_S_Background_Img_Link_Close_Easing() {
 function Looking_For_S_Background_Img_Link_Input_Show_Null_Way(team) {
     var ID_T = 'S_Color_Img_Show_Inter_', ID_W = ['', 'B', 'T', 'S', 'I'];
     var Element = document.getElementById(ID_T + ID_W[team]);
-    var IN_T = "<input placeholder='url,X=50%,Y=50%,O=100%' class='S_Link_Show_Input_USE' style='width:75%;margin-left:3%;' value='url,X=50%,Y=50%,O=100%'><div class='S_Background_Link_Button Box_Style' style='line-height:24px;width:15%;float:right;margin-right:3%' onclick='Looking_For_S_Background_Img_Link_Input_Show_Null_Way_Active(" + team + ")'>＋</div>";
+    var IN_T = 
+        "<input placeholder='url,X=50%,Y=50%,O=100%' class='S_Link_Show_Input_USE' style='width:75%;margin-left:3%;' value='url,X=50%,Y=50%,O=100%'><div class='S_Background_Link_Button Box_Style' style='line-height:24px;width:15%;float:right;margin-right:3%' onclick='Looking_For_S_Background_Img_Link_Input_Show_Null_Way_Active(" 
+        + team + ")'>＋</div>";
     Element.innerHTML = IN_T;
     Element.style.height = '32px';
     if (Looking_For_S_Background_Img_Link_Input_Show_Null_Way_focus) Element.getElementsByTagName('input')[0].focus();
@@ -4443,7 +4513,6 @@ function Looking_For_Message_Box_Show(chars_show, if_space = 0) {
         alert(Text_Value);
     }
     else {
-        var Message_E = document.getElementById('Message_Space');
         Text_Value = Text_Value + chars_show[0];
         for (; ;) {
             if (Temp0 >= chars_show.length) break;
@@ -4505,6 +4574,7 @@ function Looking_For_Message_Box_Stop() {
             clearTimeout(Looking_For_Message_Box_Timeout[ID_V]);
             clearTimeout(Looking_For_Message_Box_ID_Remove_Timeout[ID_V]);
             document.getElementById('Message_Box_ID_' + ID_V).style['grid-template-rows'] = "1fr";
+            document.getElementById('Message_Box_ID_' + ID_V).style['margin-top'] = "";
             temp0 = true;
         }
         ID_V++;
@@ -4872,7 +4942,10 @@ function Looking_For_S_Save_File(if_reset_language = 0) {
     Text_S = Text_S.replaceAll(Code_Temp[5], Code_Temp[4]);
 
     //Text_S = Text_S.replaceAll("let Code_Temp=['" + Code_Temp[0] + "','" + Code_Temp[0] + "','" + Code_Temp[2] + "','" + Code_Temp[2] + "','" + Code_Temp[4] + "','" + Code_Temp[4] + "'];", "let Code_Temp=['" + Code_Temp[0] + "','" + Code_Temp[1] + "','" + Code_Temp[2] + "','" + Code_Temp[3] + "','" + Code_Temp[4] + "','" + Code_Temp[5] + "'];");
-    Text_S = Text_S.replace(/Looking_For_Code_Change_Where_Code_Identifier_Start[^1]{0,}Looking_For_Code_Change_Where_Code_Identifier_End;/, "Looking_For_Code_Change_Where_Code_Identifier_Start;let Code_Temp=['" + Code_Temp[0] + "', '" + Code_Temp[1] + "', '" + Code_Temp[2] + "', '" + Code_Temp[3] + "', '" + Code_Temp[4] + "', '" + Code_Temp[5] + "'];let Looking_For_Code_Change_Where_Code_Identifier_End;");
+    Text_S = 
+        Text_S.replace(/Looking_For_Code_Change_Where_Code_Identifier_Start[^1]{0,}Looking_For_Code_Change_Where_Code_Identifier_End;/, "Looking_For_Code_Change_Where_Code_Identifier_Start;let Code_Temp=['" 
+            + Code_Temp[0] + "', '" + Code_Temp[1] + "', '" + Code_Temp[2] + "', '" + Code_Temp[3] + "', '" + Code_Temp[4] + "', '" + Code_Temp[5] 
+            + "'];let Looking_For_Code_Change_Where_Code_Identifier_End;");
 
     const Text_Save = Text_H + Text_L + Text_S + Text_B + Text_F;
     Looking_For_File_Download(Text_Save);
@@ -4890,7 +4963,52 @@ function Looking_For_S_Sitting_Be_Number_Texts() {
     LF0E&0n0d&b end
     */
     let S_Text_0 = '';
-    S_Text_0 = Looking_For_Model_Temp_To_Save + 'LF00b&' + Looking_For_File_Name_Temp_To_Save + 'LF00b&' + Looking_For_Default_Web_Page_In_View + 'LF00b&' + Looking_For_Input_Tips_S + 'LF00b&' + Looking_For_NP_Tips_Word_S + 'LF00b&' + Looking_For_Error_Message_S + 'LF00b&' + Looking_For_Ctrl_Move_Web_Side + 'LF00b&' + Looking_For_Ctrl_Move_Web_Top + 'LF00b&' + ctrl_go_link_as + 'LF00b&' + Looking_For_Message_Prompt_Time + 'LF00b&' + Looking_For_Language_Sitting + 'LF00b&' + Looking_For_Hellow_Word_S + 'LF00b&' + Looking_For_Dark_Light_Style + 'LF00b&' + Looking_For_Dark_Light_Auto_Change + 'LF00b&' + Looking_For_Img_Use[0] + 'LF00b&' + Looking_For_Img_Use[1] + 'LF00b&' + Looking_For_Img_Use[2] + 'LF00b&' + Looking_For_Img_Use[3] + 'LF00b&' + Looking_For_Img_Use[4] + 'LF00b&' + Looking_For_Color_Link_Chouse_Value + 'LF00b&' + Looking_For_Navigation_Sleep + 'LF00b&' + Looking_For_Sleep_Time + 'LF00b&' + Looking_For_Sleep_Background_at_View + 'LF00b&' + Looking_For_Background_Turn_Way + 'LF00b&' + Looking_For_Background_Turn_Time + 'LF00b&' + Looking_For_Preview_Button_Show_Model + 'LF00b&' + Looking_For_Proview_Link_Box_Model + 'LF00b&' + Looking_For_Background_Style[0][0] + 'LF00b&' + Looking_For_Background_Style[0][1] + 'LF00b&' + Looking_For_Background_Style[0][2] + 'LF00b&' + Looking_For_Background_Style[0][3] + 'LF00b&' + Looking_For_Background_Style[0][4] + 'LF00b&' + Looking_For_Background_Style[0][5] + 'LF00b&' + Looking_For_Background_Style[0][6] + 'LF00b&' + Looking_For_Background_Style[0][7] + 'LF00b&' + Looking_For_Background_Style[0][8] + 'LF00b&' + Looking_For_Background_Style[1][0] + 'LF00b&' + Looking_For_Background_Style[1][1] + 'LF00b&' + Looking_For_Background_Style[1][2] + 'LF00b&' + Looking_For_Background_Style[1][3] + 'LF00b&' + Looking_For_Background_Style[1][4] + 'LF00b&' + Looking_For_Background_Style[1][5] + 'LF00b&' + Looking_For_Background_Style[1][6] + 'LF00b&' + Looking_For_Background_Style[1][7] + 'LF00b&' + Looking_For_Background_Style[1][8];
+    S_Text_0 = 
+        Looking_For_Model_Temp_To_Save + 'LF00b&' 
+        + Looking_For_File_Name_Temp_To_Save + 'LF00b&' 
+        + Looking_For_Default_Web_Page_In_View + 'LF00b&' 
+        + Looking_For_Input_Tips_S + 'LF00b&' 
+        + Looking_For_NP_Tips_Word_S + 'LF00b&' 
+        + Looking_For_Error_Message_S + 'LF00b&' 
+        + Looking_For_Ctrl_Move_Web_Side + 'LF00b&' 
+        + Looking_For_Ctrl_Move_Web_Top + 'LF00b&' 
+        + ctrl_go_link_as + 'LF00b&' 
+        + Looking_For_Message_Prompt_Time + 'LF00b&' 
+        + Looking_For_Language_Sitting + 'LF00b&' 
+        + Looking_For_Hellow_Word_S + 'LF00b&' 
+        + Looking_For_Dark_Light_Style + 'LF00b&' 
+        + Looking_For_Dark_Light_Auto_Change + 'LF00b&' 
+        + Looking_For_Img_Use[0] + 'LF00b&' 
+        + Looking_For_Img_Use[1] + 'LF00b&' 
+        + Looking_For_Img_Use[2] + 'LF00b&' 
+        + Looking_For_Img_Use[3] + 'LF00b&' 
+        + Looking_For_Img_Use[4] + 'LF00b&' 
+        + Looking_For_Color_Link_Chouse_Value + 'LF00b&' 
+        + Looking_For_Navigation_Sleep + 'LF00b&' 
+        + Looking_For_Sleep_Time + 'LF00b&' 
+        + Looking_For_Sleep_Background_at_View + 'LF00b&' 
+        + Looking_For_Background_Turn_Way + 'LF00b&' 
+        + Looking_For_Background_Turn_Time + 'LF00b&' 
+        + Looking_For_Preview_Button_Show_Model + 'LF00b&' 
+        + Looking_For_Proview_Link_Box_Model + 'LF00b&' 
+        + Looking_For_Background_Style[0][0] + 'LF00b&' 
+        + Looking_For_Background_Style[0][1] + 'LF00b&' 
+        + Looking_For_Background_Style[0][2] + 'LF00b&' 
+        + Looking_For_Background_Style[0][3] + 'LF00b&' 
+        + Looking_For_Background_Style[0][4] + 'LF00b&' 
+        + Looking_For_Background_Style[0][5] + 'LF00b&' 
+        + Looking_For_Background_Style[0][6] + 'LF00b&' 
+        + Looking_For_Background_Style[0][7] + 'LF00b&' 
+        + Looking_For_Background_Style[0][8] + 'LF00b&' 
+        + Looking_For_Background_Style[1][0] + 'LF00b&' 
+        + Looking_For_Background_Style[1][1] + 'LF00b&' 
+        + Looking_For_Background_Style[1][2] + 'LF00b&' 
+        + Looking_For_Background_Style[1][3] + 'LF00b&' 
+        + Looking_For_Background_Style[1][4] + 'LF00b&' 
+        + Looking_For_Background_Style[1][5] + 'LF00b&' 
+        + Looking_For_Background_Style[1][6] + 'LF00b&' 
+        + Looking_For_Background_Style[1][7] + 'LF00b&' 
+        + Looking_For_Background_Style[1][8];
     let S_Text_1 = '';
     let Temp0 = 0, Temp1 = 0, Long = 0;
     Long = Looking_For_Background_If_Use[0].length;
@@ -4904,7 +5022,13 @@ function Looking_For_S_Sitting_Be_Number_Texts() {
             S_Text_1 = S_Text_1 + 'LF02b&';
         }
         else if (Temp0) S_Text_1 = S_Text_1 + 'LF03b&';
-        S_Text_1 = S_Text_1 + Looking_For_Background_If_Use[Temp1][Temp0][0] + 'LF00b&' + Looking_For_Background_If_Use[Temp1][Temp0][1] + 'LF00b&' + Looking_For_Background_If_Use[Temp1][Temp0][2] + 'LF00b&' + Looking_For_Background_If_Use[Temp1][Temp0][3] + 'LF00b&' + Looking_For_Background_If_Use[Temp1][Temp0][4] + 'LF00b&' + Looking_For_Background_If_Use[Temp1][Temp0][5];
+        S_Text_1 = 
+            S_Text_1 + Looking_For_Background_If_Use[Temp1][Temp0][0] + 'LF00b&' 
+            + Looking_For_Background_If_Use[Temp1][Temp0][1] + 'LF00b&'
+             + Looking_For_Background_If_Use[Temp1][Temp0][2] + 'LF00b&' 
+             + Looking_For_Background_If_Use[Temp1][Temp0][3] + 'LF00b&' 
+             + Looking_For_Background_If_Use[Temp1][Temp0][4] + 'LF00b&' 
+             + Looking_For_Background_If_Use[Temp1][Temp0][5];
         Temp0++;
     }
     let S_Text_2 = '';
@@ -4914,7 +5038,15 @@ function Looking_For_S_Sitting_Be_Number_Texts() {
     for (; ;) {
         if (Temp0 >= Long) break;
         else if (Temp0) S_Text_2 = S_Text_2 + 'LF02b&';
-        S_Text_2 = S_Text_2 + Links_Temp[Temp0][0] + 'LF00b&' + Links_Temp[Temp0][1] + 'LF00b&' + Links_Temp[Temp0][2] + 'LF00b&' + Links_Temp[Temp0][3] + 'LF00b&' + Links_Temp[Temp0][4] + 'LF00b&' + Links_Temp[Temp0][5] + 'LF00b&' + Links_Temp[Temp0][6] + 'LF00b&' + Links_Temp[Temp0][7];
+        S_Text_2 = 
+            S_Text_2 + Links_Temp[Temp0][0] + 'LF00b&' 
+            + Links_Temp[Temp0][1] + 'LF00b&' 
+            + Links_Temp[Temp0][2] + 'LF00b&' 
+            + Links_Temp[Temp0][3] + 'LF00b&' 
+            + Links_Temp[Temp0][4] + 'LF00b&' 
+            + Links_Temp[Temp0][5] + 'LF00b&' 
+            + Links_Temp[Temp0][6] + 'LF00b&' 
+            + Links_Temp[Temp0][7];
         Temp0++;
     }
     const S_Text = S_Text_0 + 'LF01b&' + S_Text_1 + 'LF01b&' + S_Text_2 + 'LF0E&0n0d&b';
@@ -5017,8 +5149,54 @@ function Looking_For_Load_Sitting_From_Number_Texts(Texts) {
 function Looking_For_S_Sitting_Be_Texts(if_reset_language = 0) {
     let Language_Sitting_Save_Temp = Looking_For_Language_Sitting;
     if (if_reset_language) Language_Sitting_Save_Temp = -1;
-    let Texts_Sittings = 'const Looking_For_Release_Version_Message={Version:"' + Looking_For_Release_Version_Message.Version + '",Date:{Year:"' + Looking_For_Release_Version_Message.Date.Year + '",Day:"' + Looking_For_Release_Version_Message.Date.Day + '"}' + '};var Looking_For_Model=' + Looking_For_Model_Temp_To_Save + ';var Looking_For_File_Name="' + Looking_For_File_Name_Temp_To_Save + '";var Looking_For_Default_Web_Page_In_View="' + Looking_For_Default_Web_Page_In_View + '";var Looking_For_Input_Tips="' + Looking_For_Input_Tips_S + '";var Looking_For_NP_Tips_Word="' + Looking_For_NP_Tips_Word_S + '";var Looking_For_Error_Message="' + Looking_For_Error_Message_S + '";var Looking_For_Ctrl_Move_Web_Side=' + Looking_For_Ctrl_Move_Web_Side + ';var Looking_For_Ctrl_Move_Web_Top=' + Looking_For_Ctrl_Move_Web_Top + ';var ctrl_go_link_as=' + ctrl_go_link_as + ';var Looking_For_Message_Prompt_Time=' + Looking_For_Message_Prompt_Time + ';var Looking_For_Language_Sitting=' + Language_Sitting_Save_Temp + ';var Looking_For_Hellow_Word="' + Looking_For_Hellow_Word_S + '";var Looking_For_Dark_Light_Style=' + Looking_For_Dark_Light_Style + ';var Looking_For_Dark_Light_Auto_Change=' + Looking_For_Dark_Light_Auto_Change + ';var Looking_For_Img_Use=[' + Looking_For_Img_Use + '];var Looking_For_Color_Link_Chouse_Value=' + Looking_For_Color_Link_Chouse_Value + ';var Looking_For_Navigation_Sleep=' + Looking_For_Navigation_Sleep + ';var Looking_For_Sleep_Time=' + Looking_For_Sleep_Time + ';var Looking_For_Sleep_Background_at_View=' + Looking_For_Sleep_Background_at_View + ';var Looking_For_Background_Turn_Way=' + Looking_For_Background_Turn_Way + ';var Looking_For_Background_Turn_Time=' + Looking_For_Background_Turn_Time + ';var Looking_For_Preview_Button_Show_Model=' + Looking_For_Preview_Button_Show_Model + ';var Looking_For_Proview_Link_Box_Model=' + Looking_For_Proview_Link_Box_Model + ';';
-    let Texts_Background_Style = 'var Looking_For_Background_Style=[["' + Looking_For_Background_Style[0][0] + '","' + Looking_For_Background_Style[0][1] + '","' + Looking_For_Background_Style[0][2] + '","' + Looking_For_Background_Style[0][3] + '","' + Looking_For_Background_Style[0][4] + '","' + Looking_For_Background_Style[0][5] + '","' + Looking_For_Background_Style[0][6] + '","' + Looking_For_Background_Style[0][7] + '","' + Looking_For_Background_Style[0][8] + '"],["' + Looking_For_Background_Style[1][0] + '","' + Looking_For_Background_Style[1][1] + '","' + Looking_For_Background_Style[1][2] + '","' + Looking_For_Background_Style[1][3] + '","' + Looking_For_Background_Style[1][4] + '","' + Looking_For_Background_Style[1][5] + '","' + Looking_For_Background_Style[1][6] + '","' + Looking_For_Background_Style[1][7] + '","' + Looking_For_Background_Style[1][8] + '"]];';
+    let Texts_Sittings = 
+        'const Looking_For_Release_Version_Message={Version:"' 
+        + Looking_For_Release_Version_Message.Version + '",Date:{Year:"' 
+        + Looking_For_Release_Version_Message.Date.Year + '",Day:"' 
+        + Looking_For_Release_Version_Message.Date.Day + '"}' + '};var Looking_For_Model=' 
+        + Looking_For_Model_Temp_To_Save + ';var Looking_For_File_Name="' 
+        + Looking_For_File_Name_Temp_To_Save + '";var Looking_For_Default_Web_Page_In_View="' 
+        + Looking_For_Default_Web_Page_In_View + '";var Looking_For_Input_Tips="' 
+        + Looking_For_Input_Tips_S + '";var Looking_For_NP_Tips_Word="' 
+        + Looking_For_NP_Tips_Word_S + '";var Looking_For_Error_Message="' 
+        + Looking_For_Error_Message_S + '";var Looking_For_Ctrl_Move_Web_Side=' 
+        + Looking_For_Ctrl_Move_Web_Side + ';var Looking_For_Ctrl_Move_Web_Top=' 
+        + Looking_For_Ctrl_Move_Web_Top + ';var ctrl_go_link_as=' 
+        + ctrl_go_link_as + ';var Looking_For_Message_Prompt_Time=' 
+        + Looking_For_Message_Prompt_Time + ';var Looking_For_Language_Sitting=' 
+        + Language_Sitting_Save_Temp + ';var Looking_For_Hellow_Word="' 
+        + Looking_For_Hellow_Word_S + '";var Looking_For_Dark_Light_Style=' 
+        + Looking_For_Dark_Light_Style + ';var Looking_For_Dark_Light_Auto_Change=' 
+        + Looking_For_Dark_Light_Auto_Change + ';var Looking_For_Img_Use=[' 
+        + Looking_For_Img_Use + '];var Looking_For_Color_Link_Chouse_Value=' 
+        + Looking_For_Color_Link_Chouse_Value + ';var Looking_For_Navigation_Sleep=' 
+        + Looking_For_Navigation_Sleep + ';var Looking_For_Sleep_Time=' 
+        + Looking_For_Sleep_Time + ';var Looking_For_Sleep_Background_at_View=' 
+        + Looking_For_Sleep_Background_at_View + ';var Looking_For_Background_Turn_Way=' 
+        + Looking_For_Background_Turn_Way + ';var Looking_For_Background_Turn_Time=' 
+        + Looking_For_Background_Turn_Time + ';var Looking_For_Preview_Button_Show_Model=' 
+        + Looking_For_Preview_Button_Show_Model + ';var Looking_For_Proview_Link_Box_Model=' 
+        + Looking_For_Proview_Link_Box_Model + ';';
+    let Texts_Background_Style = 
+        'var Looking_For_Background_Style=[["' 
+        + Looking_For_Background_Style[0][0] + '","' 
+        + Looking_For_Background_Style[0][1] + '","' 
+        + Looking_For_Background_Style[0][2] + '","' 
+        + Looking_For_Background_Style[0][3] + '","' 
+        + Looking_For_Background_Style[0][4] + '","' 
+        + Looking_For_Background_Style[0][5] + '","' 
+        + Looking_For_Background_Style[0][6] + '","' 
+        + Looking_For_Background_Style[0][7] + '","' 
+        + Looking_For_Background_Style[0][8] + '"],["' 
+        + Looking_For_Background_Style[1][0] + '","' 
+        + Looking_For_Background_Style[1][1] + '","' 
+        + Looking_For_Background_Style[1][2] + '","' 
+        + Looking_For_Background_Style[1][3] + '","' 
+        + Looking_For_Background_Style[1][4] + '","' 
+        + Looking_For_Background_Style[1][5] + '","' 
+        + Looking_For_Background_Style[1][6] + '","' 
+        + Looking_For_Background_Style[1][7] + '","' 
+        + Looking_For_Background_Style[1][8] + '"]];';
     let Text_Background_Img = 'var Looking_For_Background_If_Use=[[';
     let Temp0 = 0, Temp1 = '', Long = Looking_For_Background_If_Use[0].length, Temp2 = Looking_For_Background_If_Use[0], Temp3 = '';
     for (; ;) {
@@ -5079,15 +5257,19 @@ function Looking_For_Chouse_Lode_Page() {
         value_welcome_page = 1;
         value_view_page = 0;
         creat_wellcome_box_button_divs();
-        document.getElementById('wellcome_page').className = "wellcome_page";
-        document.getElementById('Navigation_Box').style.height = '100%';
+        setTimeout(function(){
+            document.getElementById('wellcome_page').className = "wellcome_page";
+            document.getElementById('Navigation_Box').style.height = '100%';
+        },40);
     }
     else if (Looking_For_Model == 3) {
         value_welcome_page = 0;
         value_view_page = 1;
         creat_side_table_divs();
-        document.getElementById('web_mix').className = "web_mix";
-        document.getElementById('View_Box').style.height = '100%';
+        setTimeout(function(){
+            document.getElementById('web_mix').className = "web_mix";
+            document.getElementById('View_Box').style.height = '100%';
+        },40);
     }
     else {
         setTimeout(function () {
@@ -5249,7 +5431,7 @@ function side_table(value01) {
         Element_box_table.className = "side_table_show";
         Element_Img_SideTable.style.width = '210px';
         if (Looking_For_Ctrl_Move_Web_Side == 1) {
-            Element_box_web.className = "web_desk_button_on";
+            Element_box_web.className = "web_desk_side_table";
             Element_box_top_box.className = "top_over_trigger_side_on";
         }
         value_side_table = 1;
@@ -5276,11 +5458,11 @@ function side_table(value01) {
 function top_table(value01) {
     Element_box_table = document.getElementById('top_table');
     Element_Top_Input = Element_box_table.getElementsByTagName('input')[0];
-    Element_box_web_in = document.getElementById('web_in');
+    Element_box_web_in = document.getElementById('web_home');
     if (value01 == 1) {
         Element_box_table.className = "top_table_show";
         if (Looking_For_Ctrl_Move_Web_Top == 1) {
-            Element_box_web_in.className = "web_in_button_on";
+            Element_box_web_in.className = "web_home_top_table";
         }
         value_top_table = 1;
         Element_Top_Input.focus();
@@ -5293,7 +5475,7 @@ function top_table(value01) {
     else if (value01 == 0) {
         Element_box_table.className = "top_table_hide";
         if (value_top_table == 1) {
-            Element_box_web_in.className = "web_in";
+            Element_box_web_in.className = "web_home";
         }
         value_top_table = 0;
         Element_Top_Input.blur();
