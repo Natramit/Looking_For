@@ -485,6 +485,24 @@ var Looking_For_S_Img_Show_R_Y_If_Use = 0;
 var Looking_For_S_Img_Mix_R_Value = 0;
 var Looking_For_S_Img_Show_Mask_X_Y_Line_Clean_Time;
 var Looking_For_S_Img_Show_O_R_Clean_Time;
+var Looking_For_Background_Img_Links_Grou_Timeout={
+    B:{
+        I:0,
+        B:0
+    },
+    T:{
+        I:0,
+        B:0
+    },
+    I:{
+        I:0,
+        B:0
+    },
+    S:{
+        I:0,
+        B:0
+    }
+}
 var Looking_For_N_Active_Value = 1;
 var Looking_For_Message_Box_Clear_Timeout;
 /* last is if_ready*/
@@ -1059,24 +1077,31 @@ function Looking_For_Background_Img_Change(value = 0) {
     let E_D = document.getElementById(ID_T[value] + '_Box');
     let E_D_B = document.getElementById(ID_T[value] + '_BoxB');
     let Array_T;
+    let Array_T_Timeout;
+    let Array_T_Grout_Timeout = Looking_For_Background_Img_Links_Grou_Timeout;
     let F_A_C = [
         function () {
             Array_T = Looking_For_Background_Img_Links_B;
+            Array_T_Timeout = Array_T_Grout_Timeout.B;
         },
         function () {
             Array_T = Looking_For_Background_Img_Links_T;
+            Array_T_Timeout = Array_T_Grout_Timeout.T;
         },
         function () {
             Array_T = Looking_For_Background_Img_Links_S;
+            Array_T_Timeout = Array_T_Grout_Timeout.S;
         },
         function () {
             Array_T = Looking_For_Background_Img_Links_I;
+            Array_T_Timeout = Array_T_Grout_Timeout.I;
         },
     ];
     let Img_Z_Index_S = -1, Img_Z_Index_H = -2;
     let img_urls = '';
     let temp0;
     if (Looking_For_Background_Turn_Way == 0) {
+        F_A_C[value]();
         if (Looking_For_Background_Img_Element_Useing[value]) {
             temp0 = E_I;
             E_I = E_I_B;
@@ -1084,17 +1109,22 @@ function Looking_For_Background_Img_Change(value = 0) {
             temp0 = E_D;
             E_D = E_D_B;
             E_D_B = temp0;
+            temp0 = Array_T_Timeout.I;
+            Array_T_Timeout.I = Array_T_Timeout.B;
+            Array_T_Timeout.B = temp0;
         }
-        F_A_C[value]();
         img_urls = Array_T[Looking_For_Background_Img_Links_Now[value]];
         if (value == 1) {
             Img_Z_Index_S = 20, Img_Z_Index_H = 19;
         }
         E_D_B.style["z-index"] = Img_Z_Index_S;
         E_D.style["z-index"] = Img_Z_Index_H;
+        clearTimeout(Array_T_Timeout.I);
+        Array_T_Timeout.I = setTimeout(function(){
+            E_I.style.opacity = 0;
+        },1500);
         E_I_B.style.opacity = img_urls[4];
         E_I_B.style['object-position'] = img_urls[2] + "% " + img_urls[3] + "%";
-        E_I.style.opacity = 0;
         if (Looking_For_Background_Img_Element_Useing[value]) {
             E_I.style['object-position'] = "0% 100%";
         }
