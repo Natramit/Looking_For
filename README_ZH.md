@@ -55,7 +55,9 @@ urllink|要访问的链接。
 由于浏览器权限限制，保存功能需要做额外操作才能正常工作，可以使用以下方式完成发布版制作。
 
 ## 使用导出工具
-修改`Code/Looking_For.html`后，使用`Tools/Looking_For_Release_Maker.html`生成发布版。
+
+### HTML 导出工具
+修改`Code/Looking_For.html`后，使用`Tools/HTML_Creater/Release_DEV_Maker.html`生成发布版。
 
 导出工具会检查程序代码，合规则会显示下载按钮，否则将显示缺陷位置。
 

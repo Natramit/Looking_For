@@ -55,7 +55,9 @@ The aspect ratio of the background image can be inconsistent with the target scr
 Due to browser permission restrictions, the save function requires additional operations to work properly, and the release can be completed in the following ways.
 
 ## Use the export tool
-After modifying the `Code/Looking_For.html`, use the `Tools/Looking_For_Release_Maker.html` to generate the release.
+
+### HTML Creater
+After modifying the `Code/Looking_For.html`, use the `Tools/HTML_Creater/Release_DEV_Maker.html` to generate the release.
 
 The export tool checks the program code, and the rule displays a download button, otherwise the defect location is displayed.
 
