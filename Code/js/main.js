@@ -1629,7 +1629,7 @@ function Looking_For_Text_Witer() {
     Looking_For_Hellow_Words_Lode();
     document.getElementById('wellcome_chars_button').innerHTML = Looking_For_Language.C_search;
     document.getElementById('putin_button').innerHTML = Looking_For_Language.C_search;
-    document.getElementById('Looking_For_Copyright_Notice').innerHTML = '&copy; 须语 Rainanxu ' + Looking_For_Release_Version_Message.Date.Year;
+    document.getElementById('Looking_For_Copyright_Notice').innerHTML = '&copy; 须语 Natramit ' + Looking_For_Release_Version_Message.Date.Year;
     if (Looking_For_Model != -1) return 0;
     document.getElementById('S_Title_S').innerHTML = Looking_For_Language.T_sitting;
     document.getElementById('S_Theme').innerHTML = Looking_For_Language.T_theme;

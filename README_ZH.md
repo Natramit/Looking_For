@@ -10,8 +10,8 @@
 
 # 预览
 可访问以下链接预览页面：<br>
-<https://rainanxu.github.io/Looking_For/><br>
-<https://looking-for.rainanxu.top/><br>
+<https://natramit.github.io/Looking_For/><br>
+<https://looking-for.natramit.top/><br>
 
 # 使用
 本程序支持直接交互及链接控制。
@@ -46,7 +46,7 @@ urllink|要访问的链接。
 可使用联合使用多种保存方式迁移配置。
 * 先将配置保存到本地缓存，然后将新文件部署到目标位置，即可将配置迁移到新文件。
 * 将配置保存到文件，将文件迁移到新设备，即可将配置迁移到新设备。
-* 批量添加图片需要重命名时，可使用我的重命名工具[Rename_tool](https://github.com/Rainanxu/Rename_tool/)。
+* 批量添加图片需要重命名时，可使用我的重命名工具[Rename_tool](https://github.com/Natramit/Rename_tool/)。
 
 背景图片宽高比可以和目标屏幕不一致，切换时将出现额外的动态效果。
 
