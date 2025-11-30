@@ -109,9 +109,108 @@ class Builder:
         else:
             print("\tLoad Home file %s failed!" % path)
             return False
+    def get_home_file_type(self):
+        Builder.home_file_type=Builder.get_code_type(self,Builder.home_file)
+
+    def get_code_type(self,code):
+        in_m  = ['<!--', '//' , '/*' , '"' , "'"]
+        out_m = ['->' , '\\n', '*/' , '"' , "'"]
+        #code     0
+        #comments 1
+        #data     2
+        type_v =[ '1' ,  '1' ,  '1' , '2' , '2']
+        in_m_l = []
+        out_m_l = []
+        type_i = []
+        return_v = ""
+        type_t = -1
+        type_t_leave = 1
+        type_t_leave_l = 0
+        index = 0
+        def get_remean(i,t):
+            i -= 1
+            if(code[i] == '\\'):
+                t = not t
+                t = get_remean(i,t)
+            return t
 
 
 
+
+        for i in range(len(in_m)):
+            type_i.append(i)
+            i+=1
+        for c in in_m:
+            in_m_l.append(len(c))
+        for c in out_m:
+            out_m_l.append(len(c))
+        
+        def check():
+            nonlocal return_v
+            nonlocal type_t
+            nonlocal type_t_leave
+            nonlocal type_t_leave_l
+            nonlocal index
+            if(type_t == -1):
+                if(type_t_leave_l>=1):
+                    return_v = return_v + type_v[type_t_leave]
+                    type_t_leave_l -= 1
+                else:
+                    for (t,l,t_i) in zip(in_m,in_m_l,type_i):
+                        if(code[index:index+l] == t):
+                            type_t = t_i
+                            return_v = return_v + type_v[t_i]
+                            break
+                    else:
+                        return_v = return_v + '0'
+            else:
+                if(code[index:index+out_m_l[type_t]]==out_m[type_t]):
+                    if get_remean(index,False):
+                        return_v = return_v + type_v[type_t]
+                    else:
+                        type_t_leave = type_t
+                        type_t_leave_l = out_m_l[type_t] - 1
+                        return_v = return_v + type_v[type_t]
+                        type_t = -1
+                else:
+                    return_v = return_v + type_v[type_t]
+            index += 1
+
+        for _ in code:
+            check()
+        
+        return return_v
+    
+    def rm_home_file_comments(self):
+        return Builder.rm_comments(self,Builder.home_file,Builder.home_file_type)
+    
+    def rm_comments(self,code,type_in):
+        return_v = ""
+        for c,t in zip(code,type_in):
+            if t == '1':
+                return_v = return_v + ' '
+            else:
+                return_v = return_v + c
+        return return_v
+    def rm_home_file_data(self):
+        return Builder.rm_data(self,Builder.home_file,Builder.home_file_type)
+    
+    def rm_data(self,code,type_in):
+        return_v = ""
+        type_leave = '0'
+        type_leave_leave = '0'
+        v_leave = ''
+        for c,t in zip(code,type_in):
+            if t == '2':
+                if type_leave == '2':
+                    if type_leave_leave == '2':
+                        v_leave = ' '
+            return_v = return_v + v_leave
+            type_leave_leave = type_leave
+            type_leave = t
+            v_leave = c
+        return_v = return_v + v_leave
+        return return_v
     
 def get_file_text(url):
     text = ""
@@ -260,4 +359,24 @@ def test():
     sitting.get_home_path()
     builder=Builder()
     builder.get_home_file(sitting.home_file_path)
+    builder.get_home_file_type()
+    print("len %d %d" % (len(builder.home_file),len(builder.home_file_type)))
+    type_temp = builder.rm_home_file_data()
+    #type_temp=builder.get_code_type(builder.home_file)
+    print(type_temp)
+    """
+    i = 0
+    temp_1 = builder.home_file
+    temp_2 = builder.home_file_type
+    for a in temp_1:
+        if a == "\n":
+            temp_2= temp_2[0:i] + '\n' + temp_2[i+1:]
+        i+=1
+    temp_1=temp_1.split('\n')
+    temp_2=temp_2.split('\n')
+    for a,b in zip(temp_1,temp_2):
+        print(a," || ",len(a))
+        print(b, " || ",len(b))
+    
+"""
 test()
